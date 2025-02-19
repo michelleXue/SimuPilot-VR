@@ -15,6 +15,13 @@ class actionFormat(BaseModel):
     duration: float
 
 
+class Spatial(BaseModel):
+    foreground: bool
+    middleground: bool
+    background: bool
+    none_of_them: bool
+
+
 pressed = False
 
 while not pressed:
@@ -24,6 +31,37 @@ while not pressed:
     buffered = BytesIO()
     image.save(buffered, format="JPEG")
     base64_image = base64.b64encode(buffered.getvalue()).decode("utf-8")
+
+    spatial_analysis = client.beta.chat.completions.parse(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are using a virtual reality assistant and this image is what you are seeing.",
+            },
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": "Is the table with buttons on it in the foreground, middleground, or background? The table is in the foreground only if it is very close to you and completely centered in your field of view.",
+                    },
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"},
+                    },
+                ],
+            },
+        ],
+        response_format=Spatial,
+        max_tokens=300,
+    )
+
+    spatial_data = spatial_analysis.choices[0].message.parsed
+
+    if spatial_data.foreground:
+        print("reached table")
+        break
 
     response1 = client.chat.completions.create(
         model="gpt-4o-mini",
