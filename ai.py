@@ -104,7 +104,7 @@ while not pressed:
         print(output.parsed)
 
         dur = output.parsed.duration
-
+        dur = 0.5
         match output.parsed.action:
             case "move_forward":
                 move_forward(dur)
