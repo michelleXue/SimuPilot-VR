@@ -2,18 +2,18 @@ import base64
 import os
 from pydantic import BaseModel
 from typing import List
-from user_action_decider.utils import encode_image, call_api
+from user_action_decider.utils import *
 
 
 class DetectedObject(BaseModel):
     object_name: str
-    # color: str
-    # orientation: str
-    # location: str
-    # brightness: str
-    # shape: str
-    # texture: str
-    # material: str
+    color: str
+    orientation: str
+    location: str
+    brightness: str
+    shape: str
+    texture: str
+    material: str
     relationship_with_user_horizontal: str
     relationship_with_user_vertical: str
     relationship_with_user_distance: str
@@ -41,60 +41,55 @@ Your task is to analyze the provided image and return structured data. Follow th
 
 2. For each object, provide:
    - Name: The object name with a unique identifier (e.g., 'Chair A', 'Chair B').
+   - Color
+   - Orientation: facing direction
+   - Location: in the scene
+   - Brightness
+   - Shape
+   - Texture
+   - Material
    - Spatial Relationship:
      - Horizontal: Specify left, middle, or right.
      - Vertical: Specify up, down, or center.
      - Distance: Specify near, mid-range, or far.
 """
 
-# DETECTION_PROMPT = """
-# Your task is to analyze the provided image and return structured data. Follow these rules strictly:
-#
-# 1. Scene:
-#    - List every object individually.
-#
-# 2. For each object, provide:
-#    - Name: The object name with a unique identifier (e.g., 'Chair A', 'Chair B').
-#    - Color
-#    - Orientation: facing direction
-#    - Location: in the scene
-#    - Brightness
-#    - Shape
-#    - Texture
-#    - Material
-#    - Spatial Relationship:
-#      - Horizontal: Specify left, middle, or right.
-#      - Vertical: Specify up, down, or center.
-#      - Distance: Specify near, mid-range, or far.
-# """
-
 VERIFICATION_PROMPT = """
 Examine the image carefully to see if there are any missing items. If there are, add them and return the complete JSON.
 """
 
-# SIMPLIFIED_SPATIAL_RELATIONSHIP_DETECTION_PROMPT = """
-# Your task is to analyze the provided image and return structured data. Follow these rules strictly:
-#
-# 1. Scene Type:
-#    - Provide the type of scene (e.g., dining room, office).
-#    - List every object individually.
-#
-# 2. For each object, provide:
-#    - Name: The object name with a unique identifier (e.g., 'Chair A', 'Chair B').
-#    - Spatial Relationship:
-# """
+SIMPLIFIED_SPATIAL_RELATIONSHIP_DETECTION_PROMPT = """
+Your task is to analyze the provided image and return structured data. Follow these rules strictly:
+
+1. Scene Type:
+   - Provide the type of scene (e.g., dining room, office).
+   - List every object individually. 
+
+2. For each object, provide:
+   - Name: The object name with a unique identifier (e.g., 'Chair A', 'Chair B').
+   - Spatial Relationship:
+"""
 
 
-def detect_objects(image_path, prompts=[DETECTION_PROMPT, VERIFICATION_PROMPT]):
+def detect_objects(
+    image_path,
+    # call_api_func=call_api(),
+    prompts=[
+        DETECTION_PROMPT,
+        VERIFICATION_PROMPT,
+        SIMPLIFIED_SPATIAL_RELATIONSHIP_DETECTION_PROMPT,
+    ],
+):
     """Detect and analyze objects in the image"""
-    base64_image = encode_image(image_path)
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode("utf-8")
     messages = []
     result = None
 
-    # if SIMPLIFIED_SPATIAL_RELATIONSHIP_DETECTION_PROMPT in prompts:
-    #     class_type = SceneSpatialRelationshipAnalysis
-    # else:
-    class_type = SceneAnalysis
+    if SIMPLIFIED_SPATIAL_RELATIONSHIP_DETECTION_PROMPT in prompts:
+        class_type = SceneSpatialRelationshipAnalysis
+    else:
+        class_type = SceneAnalysis
 
     for i, current_prompt in enumerate(prompts):
         if i == 0:
@@ -135,15 +130,3 @@ def detect_objects(image_path, prompts=[DETECTION_PROMPT, VERIFICATION_PROMPT]):
         f.write(result)
 
     return result
-
-
-if __name__ == "__main__":
-    prompts = [DETECTION_PROMPT, VERIFICATION_PROMPT]
-    detect_objects("temp/screenshot_compressed/screenshot4.png", prompts)
-# same_object_detection_in_folder()
-
-# process_images_in_folder(
-#     "dataset",
-#
-#     prompts=[SIMPLIFIED_SPATIAL_RELATIONSHIP_DETECTION_PROMPT, VERIFICATION_PROMPT]
-# )

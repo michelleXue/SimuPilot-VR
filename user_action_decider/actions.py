@@ -57,5 +57,6 @@ def screenshot(counter):
 
     # Save the screenshot
     screenshot.save(f"screenshot{counter}.png")
+    screenshot.save(f"screenshots/screenshot{counter}.png")
     return screenshot
     # image.save("screenshot.png")

@@ -1,11 +1,12 @@
-from actions import *
+from user_action_decider.actions import *
 from openai import OpenAI
 import base64
 from io import BytesIO
 import time
 from pydantic import BaseModel
+import main
 
-client = OpenAI(api_key=(""))
+client = OpenAI(main.api_key)
 
 
 class Spatial(BaseModel):

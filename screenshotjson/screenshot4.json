@@ -1,0 +1,41 @@
+{
+    "objects": [
+        {
+            "object_name": "Controller A",
+            "relationship_with_user_horizontal": "left",
+            "relationship_with_user_vertical": "down",
+            "relationship_with_user_distance": "near"
+        },
+        {
+            "object_name": "Controller B",
+            "relationship_with_user_horizontal": "right",
+            "relationship_with_user_vertical": "down",
+            "relationship_with_user_distance": "near"
+        },
+        {
+            "object_name": "Table A",
+            "relationship_with_user_horizontal": "left",
+            "relationship_with_user_vertical": "center",
+            "relationship_with_user_distance": "far"
+        },
+        {
+            "object_name": "Table B",
+            "relationship_with_user_horizontal": "right",
+            "relationship_with_user_vertical": "center",
+            "relationship_with_user_distance": "far"
+        },
+        {
+            "object_name": "Table A Items",
+            "relationship_with_user_horizontal": "left",
+            "relationship_with_user_vertical": "up",
+            "relationship_with_user_distance": "far"
+        },
+        {
+            "object_name": "Table B Items",
+            "relationship_with_user_horizontal": "right",
+            "relationship_with_user_vertical": "up",
+            "relationship_with_user_distance": "far"
+        }
+    ],
+    "scene_type": "Virtual Reality Interface"
+}

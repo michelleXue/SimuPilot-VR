@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load left and right images (grayscale)
-left_img = cv2.imread("left_eye.png", cv2.IMREAD_GRAYSCALE)
-right_img = cv2.imread("right_eye.png", cv2.IMREAD_GRAYSCALE)
+left_img = cv2.imread("screenshots/left_eye.png", cv2.IMREAD_GRAYSCALE)
+right_img = cv2.imread("screenshots/right_eye.png", cv2.IMREAD_GRAYSCALE)
 
 # Create StereoBM object
 stereo = cv2.StereoBM_create(

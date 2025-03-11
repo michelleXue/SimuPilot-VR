@@ -1,13 +1,14 @@
-from actions import *
+from user_action_decider.actions import *
 from openai import OpenAI
 import base64
 from io import BytesIO
 import time
 from pydantic import BaseModel
+import main
 
 time.sleep(1)
 counter = 0
-client = OpenAI(api_key=(""))
+client = OpenAI(main.api_key)
 
 
 class actionFormat(BaseModel):
