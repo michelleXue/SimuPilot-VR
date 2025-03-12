@@ -11,13 +11,13 @@ class actionFormat(BaseModel):
     duration: float
 
 
-def determine_action(desc):
+def determine_action(desc, goal):
     response2 = client.beta.chat.completions.parse(
         model="gpt-4o-2024-08-06",
         messages=[
             {
                 "role": "system",
-                "content": "Your goal is to walk up to the table with the buttons on it. To do this you can choose from the following actions: move_forward, move_left, move_right, in_place_rotate_to_left, in_place_rotate_to_right, look_down, look_up, and press. You must choose an action and how long you want to perform the action for. For example, you could say move_left 2.5 to move left for 2.5 seconds. Once your action is complete, you will get another image to continue from there. Be careful not to walk off the edge. When you think you are there say stop 0. Now what is your first a action.",
+                "content": f"Your goal the following: {goal}. To do this you can choose from the following actions: move_forward, move_left, move_right, in_place_rotate_to_left, in_place_rotate_to_right, look_down, look_up, and press. You must choose an action and how long you want to perform the action for. For example, you could say move_left 2.5 to move left for 2.5 seconds. Once your action is complete, you will get another image to continue from there. Be careful not to walk off the edge. When you think you are there say stop 0. Now what is your first a action.",
             },
             {"role": "user", "content": desc},
         ],

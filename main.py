@@ -7,6 +7,8 @@ import json
 
 api_key = ""
 
+goal = "walk up to the table with buttons on it"
+
 # screenshot
 time.sleep(3)
 screenshot(4)
@@ -17,7 +19,7 @@ compress_images_in_folder("temp/screenshot_original", "temp/screenshot_compresse
 # detect objects and save to json
 detect_objects("temp/screenshot_compressed/screenshot4.png")
 
-# # parse json
+# parse json
 jsonPath = "screenshotjson"
 
 with open(jsonPath, "r", encoding="utf-8") as file:
@@ -25,4 +27,4 @@ with open(jsonPath, "r", encoding="utf-8") as file:
     json_string = json.dumps(data)
 
 # determine action
-determine_action(data)
+determine_action(data, goal)
