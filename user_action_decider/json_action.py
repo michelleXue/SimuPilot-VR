@@ -19,8 +19,8 @@ def determine_action(desc, target):
         messages=[
             {
                 "role": "system",
-                "content": f"The target you must reach is: {target}. To do this you can choose from the following actions: move_forward, move_left, move_right, in_place_rotate_to_left, in_place_rotate_to_right, and press. You must choose an action and how long you want to perform the action for. For example, you could say move_left 2.5 to move left for 2.5 seconds. Once your action is complete, you will get another image to continue from there. Be careful not to walk off the edge. When you think you are there say stop 0. Now what is your first action.",
-                # "content": f"The target you must reach is: {target}. To do this you can choose from the following actions: move_forward, move_left, move_right, in_place_rotate_to_left, in_place_rotate_to_right, look_down, look_up, and press. You must choose an action and how long you want to perform the action for. For example, you could say move_left 2.5 to move left for 2.5 seconds. Once your action is complete, you will get another image to continue from there. Be careful not to walk off the edge. When you think you are there say stop 0. Now what is your first a action.",
+                "content": f"The target you must reach is: {target}. To do this you can choose from the following actions: move_forward, move_left, move_right, in_place_rotate_to_left, in_place_rotate_to_right, and press. You must choose an action and how long you want to perform the action for. For example, you could say move_left 2.5 to move left for 2.5 seconds. Once your action is complete, you will get another image to continue from there. Be careful not to walk off the edge. The sensitivity is high, so when looking left or right do it in small increments. If you don't see the target try looking around slowly. Now what is your first action.",
+                # look up down taken out
             },
             {"role": "user", "content": desc},
         ],
@@ -34,7 +34,6 @@ def determine_action(desc, target):
         print(output.parsed)
 
         dur = output.parsed.duration
-        dur = 0.5
         match output.parsed.action:
             case "move_forward":
                 move_forward(dur)

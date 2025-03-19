@@ -48,7 +48,7 @@ def press_button(duration):
     hold_key("u", duration)
 
 
-def screenshot(counter):
+def screenshot(counter, end=False):
     # Define the bounding box (left, top, width, height)
     region = (624, 31, 1356, 1488)  # Captures a 500x400 area starting from (100,100)
 
@@ -59,6 +59,9 @@ def screenshot(counter):
     # screenshot.save(f"screenshot{counter}.png")
     # screenshot.save(f"screenshots/screenshot{counter}.png")
     # screenshot.save(f"temp/screenshot_original/screenshot{counter}.png")
-    screenshot.save(f"temp/screenshot_original/screenshot.png")
+    if end:
+        screenshot.save(f"temp/screenshot_original/screenshotend{counter}.png")
+    else:
+        screenshot.save(f"temp/screenshot_original/screenshot{counter}.png")
     return screenshot
     # image.save("screenshot.png")
