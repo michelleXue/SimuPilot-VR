@@ -4,11 +4,14 @@ import base64
 from io import BytesIO
 import time
 from pydantic import BaseModel
-import main
 
 time.sleep(1)
 counter = 0
-client = OpenAI(main.api_key)
+
+with open("api_key.txt", "r") as file:
+    key = file.read()
+
+client = OpenAI(api_key=key)
 
 
 class actionFormat(BaseModel):

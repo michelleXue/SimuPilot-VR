@@ -1,30 +1,32 @@
-from user_action_decider.object_detection2 import *
+from user_action_decider.object_detection import *
 from user_action_decider.actions import *
 from user_action_decider.utils import *
 from user_action_decider.json_action import *
 import time
 import json
 
-api_key = ""
+goal = "walk up to the purple cube"
 
-goal = "walk up to the table with buttons on it"
+while True:
+    counter = 0
 
-# screenshot
-time.sleep(3)
-screenshot(4)
+    # screenshot
+    # time.sleep(2)
+    screenshot(counter)
 
-# compress screenshot
-compress_images_in_folder("temp/screenshot_original", "temp/screenshot_compressed")
+    # compress screenshot
+    compress_images_in_folder("temp/screenshot_original", "temp/screenshot_compressed")
 
-# detect objects and save to json
-detect_objects("temp/screenshot_compressed/screenshot4.png")
+    # detect objects and save to json
+    target = detect_objects(f"temp/screenshot_compressed/screenshot{counter}.png", goal)
 
-# parse json
-jsonPath = "screenshotjson"
+    # parse json
+    jsonPath = f"screenshotjson/screenshot{counter}.json"
 
-with open(jsonPath, "r", encoding="utf-8") as file:
-    data = json.load(file)
-    json_string = json.dumps(data)
+    with open(jsonPath, "r", encoding="utf-8") as file:
+        data = json.load(file)
+        json_string = json.dumps(data)
 
-# determine action
-determine_action(data, goal)
+    # determine action
+    print(target)
+    determine_action(json_string, target)

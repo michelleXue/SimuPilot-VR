@@ -1,8 +1,15 @@
 import base64
 import os
+from openai import OpenAI
 from pydantic import BaseModel
 from typing import List
 from user_action_decider.utils import encode_image, call_api
+
+
+with open("api_key.txt", "r") as file:
+    key = file.read()
+
+client = OpenAI(api_key=key)
 
 
 class DetectedObject(BaseModel):
@@ -22,6 +29,10 @@ class DetectedObject(BaseModel):
 class SceneAnalysis(BaseModel):
     objects: List[DetectedObject]
     scene_type: str
+
+
+class TargetAnalysis(BaseModel):
+    target_object_name: str
 
 
 class DetectedSpatialRelationshipObject(BaseModel):
@@ -72,6 +83,10 @@ VERIFICATION_PROMPT = """
 Examine the image carefully to see if there are any missing items. If there are, add them and return the complete JSON.
 """
 
+TARGET_PROMPT = """
+Specify which object is the target based on the goal which is: 
+"""
+
 # SIMPLIFIED_SPATIAL_RELATIONSHIP_DETECTION_PROMPT = """
 # Your task is to analyze the provided image and return structured data. Follow these rules strictly:
 #
@@ -85,11 +100,14 @@ Examine the image carefully to see if there are any missing items. If there are,
 # """
 
 
-def detect_objects(image_path, prompts=[DETECTION_PROMPT, VERIFICATION_PROMPT]):
+def detect_objects(
+    image_path, goal, prompts=[DETECTION_PROMPT, VERIFICATION_PROMPT, TARGET_PROMPT]
+):
     """Detect and analyze objects in the image"""
     base64_image = encode_image(image_path)
     messages = []
     result = None
+    result_target = None
 
     # if SIMPLIFIED_SPATIAL_RELATIONSHIP_DETECTION_PROMPT in prompts:
     #     class_type = SceneSpatialRelationshipAnalysis
@@ -113,7 +131,8 @@ def detect_objects(image_path, prompts=[DETECTION_PROMPT, VERIFICATION_PROMPT]):
                     ],
                 }
             )
-        else:
+            result = call_api(messages, SceneAnalysis)
+        if i == 1:
             messages.extend(
                 [
                     {
@@ -126,15 +145,30 @@ def detect_objects(image_path, prompts=[DETECTION_PROMPT, VERIFICATION_PROMPT]):
                     },
                 ]
             )
+            result = call_api(messages, SceneAnalysis)
+        else:
+            messages.extend(
+                [
+                    {
+                        "role": "assistant",
+                        "content": [{"type": "text", "text": result}],
+                    },
+                    {
+                        "role": "user",
+                        "content": [{"type": "text", "text": current_prompt + goal}],
+                    },
+                ]
+            )
 
-        result = call_api(messages, class_type)
+            result_target = call_api(messages, TargetAnalysis)
 
     # Save result
     image_filename = os.path.splitext(os.path.basename(image_path))[0]
-    with open(f"{image_filename}.json", "w", encoding="utf-8") as f:
+    json_path = os.path.join("screenshotjson", f"{image_filename}.json")
+    with open(json_path, "w", encoding="utf-8") as f:
         f.write(result)
 
-    return result
+    return result_target
 
 
 if __name__ == "__main__":

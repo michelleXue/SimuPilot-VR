@@ -3,13 +3,15 @@ import base64
 import os
 import numpy as np
 import json
-import main
 from openai import OpenAI
 
 
 def call_api(messages, response_model):
     """Make API call to OpenAI"""
-    client = OpenAI(main.api_key)
+    with open("api_key.txt", "r") as file:
+        key = file.read()
+
+    client = OpenAI(api_key=key)
 
     return (
         client.beta.chat.completions.parse(

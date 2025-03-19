@@ -4,9 +4,11 @@ import base64
 from io import BytesIO
 import time
 from pydantic import BaseModel
-import main
 
-client = OpenAI(main.api_key)
+with open("api_key.txt", "r") as file:
+    key = file.read()
+
+client = OpenAI(api_key=key)
 
 
 class Spatial(BaseModel):

@@ -56,7 +56,9 @@ def screenshot(counter):
     screenshot = pag.screenshot(region=region)
 
     # Save the screenshot
-    screenshot.save(f"screenshot{counter}.png")
-    screenshot.save(f"screenshots/screenshot{counter}.png")
+    # screenshot.save(f"screenshot{counter}.png")
+    # screenshot.save(f"screenshots/screenshot{counter}.png")
+    # screenshot.save(f"temp/screenshot_original/screenshot{counter}.png")
+    screenshot.save(f"temp/screenshot_original/screenshot.png")
     return screenshot
     # image.save("screenshot.png")
