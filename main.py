@@ -8,23 +8,23 @@ import json
 
 # SimuPilot VR
 
-# Setup
-# Set screenshot bounds in bounds.py
-# put api key in apy_key.txt
-# Enter goal in goal variable
+# Setup:
+# Set screenshot bounds with bounds.py and place region variable
+# Set goal in goal variable
+# Place api key in api_key.txt
 
 goal = ""
+region = (624, 31, 1356, 1488)
 
 time.sleep(2)
 
 ending = False
 
-counter = 0
-
 while not ending:
+    counter = 0
 
-    # take screenshot
-    screenshot(counter)
+    # screenshot
+    screenshot(counter, region)
 
     # compress screenshot
     compress_images_in_folder("temp/screenshot_original", "temp/screenshot_compressed")
@@ -44,11 +44,9 @@ while not ending:
     determine_action(json_string, target)
 
     # Check if finished
-    screenshot(counter, True)
+    screenshot(counter, region, True)
     compress_images_in_folder("temp/screenshot_original", "temp/screenshot_compressed")
     ending = finished(goal, f"temp/screenshot_compressed/screenshotend{counter}.png")
     print(ending)
-    count += 1
 
 print("Done")
-hold_key("right", 10)

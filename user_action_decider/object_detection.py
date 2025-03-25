@@ -14,13 +14,6 @@ client = OpenAI(api_key=key)
 
 class DetectedObject(BaseModel):
     object_name: str
-    # color: str
-    # orientation: str
-    # location: str
-    # brightness: str
-    # shape: str
-    # texture: str
-    # material: str
     relationship_with_user_horizontal: str
     relationship_with_user_vertical: str
     relationship_with_user_distance: str
@@ -57,6 +50,7 @@ Your task is to analyze the provided image and return structured data. Follow th
      - Vertical: Specify up, down, or center.
      - Distance: Specify near, mid-range, or far.
 """
+
 
 VERIFICATION_PROMPT = """
 Examine the image carefully to see if there are any missing items. If there are, add them and return the complete JSON.
