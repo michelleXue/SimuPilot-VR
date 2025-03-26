@@ -1,0 +1,27 @@
+site_name: SimuPilot VR
+site_description: A simulated pilot that helps you operating in VR application!
+site_url: https://your-tool-site.com
+repo_url: https://github.com/your-org/your-tool
+repo_name: labcitrus/simuPilot-VR
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: deep purple
+      accent: cyan
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+    - content.code.copy
+  favicon: images/icon.png
+  logo: images/icon.png
+
+nav:
+  - Home: index.md
+  - Setup & Usage: setup.md
+  - Support Functions: support.md
+  - Demo: demo.md
+
