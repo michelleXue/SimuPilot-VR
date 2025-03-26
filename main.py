@@ -3,7 +3,6 @@ from user_action_decider.actions import *
 from user_action_decider.utils import *
 from user_action_decider.json_action import *
 from user_action_decider.end_condition import *
-import time
 import json
 
 # SimuPilot VR
@@ -14,14 +13,13 @@ import json
 # Place api key in api_key.txt
 
 goal = ""
-region = (624, 31, 1356, 1488)
-
-time.sleep(2)
+region = (x1, y1, width, height)
 
 ending = False
 
+counter = 0
+
 while not ending:
-    counter = 0
 
     # screenshot
     screenshot(counter, region)
@@ -47,6 +45,8 @@ while not ending:
     screenshot(counter, region, True)
     compress_images_in_folder("temp/screenshot_original", "temp/screenshot_compressed")
     ending = finished(goal, f"temp/screenshot_compressed/screenshotend{counter}.png")
-    print(ending)
+    print(f"Finished: {ending}")
+
+    counter += 1
 
 print("Done")
