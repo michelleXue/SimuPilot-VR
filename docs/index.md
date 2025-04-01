@@ -16,12 +16,10 @@ SimuPilot VR integrates Large Language Models (LLMs) with your VR system to prov
 
 ## ✨ Highlight Features
 
-- 🧠 **LLM-Powered Pilot**: Uses large language models to understand natural language commands and provide adaptive assistance.
-- 🕶️ **VR-Optimized Interaction**: Tailored for intuitive voice and gesture control inside VR environments.
-- 💪 **Pluggable Design**: Modular architecture that supports easy integration and customization for different VR applications.
-- 📡 **Real-Time Support**: Offers contextual help and dynamic responses as users interact with the system.
+- 🧠 **LLM-Powered Pilot**: Uses large language models to determine surroundings.
+- 🕶️ **VR-Optimized Interaction**: Views environment through VR lenses and takes actions that could be done by a VR user.
+- 💪 **Pluggable Design**: Versatile architecture that supports easy integration and customization for different VR applications.
 - 🎮 **Multi-Platform Compatibility**: Works across a range of VR devices and engines (e.g., Unity, Unreal).
-- 🧹 **Extensible Modules**: Add or extend capabilities via plug-and-play components.
 
 ---
 

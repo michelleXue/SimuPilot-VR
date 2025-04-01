@@ -6,13 +6,13 @@ SimuPilot VR provides a range of built-in action functions that can be invoked b
 
 ## 🔢 Core Action Functions
 
-| Function Name       | Description                                                | Parameters           | Example Usage                         |
+| Function Name       | Description                                                | Parameters            | Example Usage                         |
 |---------------------|------------------------------------------------------------|-----------------------|----------------------------------------|
-| `start_simulation()`| Initializes and begins a VR simulation session             | None                  | Voice: "Begin the simulation"         |
-| `pause_session()`   | Pauses the current VR session                              | None                  | Voice: "Pause now"                    |
-| `load_scenario()`   | Loads a predefined scenario or environment                 | `scenario_id: str`    | Voice: "Load training level one"      |
-| `highlight_object()`| Highlights an object for user attention                    | `object_id: str`      | Voice: "Show me the navigation panel" |
-| `explain_feature()` | Provides verbal or textual explanation of a selected item | `feature_id: str`     | Voice: "What does this button do?"    |
+| `move_forward()`    | Walks forward by pressing w key for a specified time       | `duration: float`     | `move_forward(2.0)`                    |
+| `move_left()`    | Walks left by pressing a key for a specified time       | `duration: float`     | `move_left(2.5)`                    |
+| `move_right()`    | Walks right by pressing d key for a specified time       | `duration: float`     | `move_right(1.5)`                    |
+| `in_place_rotate_to_left()`    | Rotates to the left by the left arrow key for a specified time       | `duration: float`     | `in_place_rotate_to_left(0.5)`                    |
+| `in_place_rotate_to_right()`   | Rotates to the left by the left arrow key for a specified time         | `duration: float`     | `in_place_rotate_to_right(0.5)`                    |
 
 ---
 
@@ -20,10 +20,11 @@ SimuPilot VR provides a range of built-in action functions that can be invoked b
 
 | Function Name    | Description                                    | Parameters           | Example Usage                         |
 |------------------|------------------------------------------------|-----------------------|----------------------------------------|
-| `bounds()`       | Cpature the bounds of the simulator screen     | `rating: int, notes: str` | Voice: "Give feedback: 4 stars"  |
-| `toggle_ui()`    | Show/hide in-VR interface elements             | `element_id: str`     | Voice: "Hide the sidebar"             |
-| `request_help()` | Asks for contextual help or triggers LLM query | `topic: str`          | Voice: "I need help with controls"     |
-| `end_session()`  | Gracefully ends the VR session                 | None                  | Voice: "Exit simulation"              |
+| `screenshot()`       | Captures a screenshot of the simulator screen     | `counter: int, region: int tuple, end: boolean` | `screenshot(3, (10, 10 5, 5), True)`  |
+| ` compress_images_in_folder()`    | Compresses screenshot for AI to views             | `input_folder: str, output_folder: str, target_size: int`     | `compress_images_in_folder("temp/screenshot_original", "temp/screenshot_compressed", 512)`          |
+| `detect_objects()` | AI determines what objects are in view and writes data to a json, returns object believed to be the target | `image_path: str, goal: str`          | `detect_objects("temp/screenshot_compressed", "reach the purple cube")`     |
+| `determine_action()`  | Determines what action should be taken with AI              | `json_string: str, target: str`                  | `determine_action("json data", "purple-cube")`            |
+| `finished()`  | Determines if the goal has been accomplished           | `goal: str, image_path: str`                  | `finished("reach cube", "temp/end_screenshots")`            |
 
 ---
 
